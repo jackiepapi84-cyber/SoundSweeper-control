@@ -94,6 +94,11 @@ class MainActivity : Activity() {
     private var trebleLevel = 0
     private var currentPreset = 0
 
+    // Battery updates are a non-public Android broadcast and are not guaranteed
+    // to be delivered to third-party apps. No percentage is fabricated.
+    private var batteryForDevice: String? = null
+    private var lastReportedBattery: Int? = null
+
     private val manager: BluetoothManager by lazy {
         getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
     }
@@ -129,6 +134,19 @@ class MainActivity : Activity() {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (!active) return
+            if (intent.action == BATTERY_CHANGED_ACTION && canReadBluetooth()) {
+                val device = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE, BluetoothDevice::class.java)
+                } else {
+                    @Suppress("DEPRECATION")
+                    intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                }
+                val level = intent.getIntExtra(BATTERY_LEVEL_EXTRA, -1)
+                if (device != null) {
+                    batteryForDevice = device.address
+                    lastReportedBattery = level.takeIf { it in 0..100 }
+                }
+            }
             refreshBluetooth()
             handler.removeCallbacks(retryRead)
             handler.postDelayed(retryRead, 500)
@@ -190,7 +208,7 @@ class MainActivity : Activity() {
 
     private fun buildInterface() {
         val scroll = ScrollView(this).apply {
-            setBackgroundColor(background)
+            setBackgroundColor(this@MainActivity.background)
             isFillViewport = true
             clipToPadding = false
         }
@@ -570,7 +588,8 @@ class MainActivity : Activity() {
             addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
             addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
             addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-            addAction(BluetoothDevice.ACTION_BATTERY_LEVEL_CHANGED)
+            // System-only on many Android builds; listening does not ensure delivery.
+            addAction(BATTERY_CHANGED_ACTION)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
@@ -643,7 +662,10 @@ class MainActivity : Activity() {
                 soundSweeper != null -> {
                     val name = soundSweeper.name.orEmpty().ifBlank { "SoundSweeper" }
                     renderConnection("Connected", "Ready for Bluetooth audio.", mint, name)
-                    showBattery(soundSweeper.batteryLevel)
+                    val level = if (batteryForDevice == soundSweeper.address) {
+                        lastReportedBattery ?: -1
+                    } else -1
+                    showBattery(level)
                 }
                 connected.isNotEmpty() -> {
                     val other = connected.first().name.orEmpty().ifBlank { "Another audio device" }
@@ -731,5 +753,7 @@ class MainActivity : Activity() {
     companion object {
         private const val REQUEST_BLUETOOTH = 1001
         private const val REQUEST_AUDIO = 1002
+        private const val BATTERY_CHANGED_ACTION = "android.bluetooth.device.action.BATTERY_LEVEL_CHANGED"
+        private const val BATTERY_LEVEL_EXTRA = "android.bluetooth.device.extra.BATTERY_LEVEL"
     }
 }
