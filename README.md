@@ -1,22 +1,30 @@
 # SoundSweeper Control
 
-Independent Android prototype for Volkano SoundSweeper headphones. The app does not represent or originate from Volkano.
+Independent experimental Android companion for SoundSweeper Bluetooth headphones. **Not affiliated with Volkano.**
 
-## Version 1.2
+## Version 1.3 — Streaming edition
 
-- Redesigned native Android interface with a consistent sans-serif font, dark navy surfaces, ice-blue and coral accents.
-- Displays Android Bluetooth AUDIO profile connection status (A2DP/Headset). Requires Nearby devices permission on Android 12+.
-- Displays connected SoundSweeper headphone battery **only if Android receives a valid battery level from that device**. Otherwise displays "Unavailable" instead of guessing. Includes a refresh button and Bluetooth settings shortcut.
-- Lets you select a local audio file through Android's system document picker (no broad storage permission). Plays it using a MediaPlayer.
-- Balanced, Bass Boost, and Clear Voice presets; bass and treble sliders. When supported, the audio Equalizer applies solely to the **player's own audio session**. Other apps (YouTube, Spotify), firmware ANC, and headphones' hardware EQ are **not** controlled by this app.
-- Audio playback is paused when you leave the app.
+- Replaces the local music player with shortcuts to Spotify, Apple Music (Android), and YouTube.
+- Keeps Bluetooth audio connection detection and best-effort device battery reporting.
+- Refines navy / ice-blue UI with clear sections and larger touch targets.
+- Adds a shortcut to Android's **Sound settings**, plus a media-volume control and guidance for Spotify's equalizer.
 
-## Testing
+### Important EQ limitations
 
-Connect SoundSweeper in Android Bluetooth settings before opening the app. Test battery reporting with headphones both connected and disconnected; "Unavailable" means the Bluetooth stack did not expose a usable battery percentage. Then choose a local song and compare presets on an audio device that supports Android's Equalizer audio effect.
+This app **does not** equalize music played by Spotify, Apple Music or YouTube. Android music apps use their own audio sessions; a third-party app does not have a supported universal hook into all of them. Android's audio-effect control panel intent generally stores changes for the **calling application's own session**, so exposing that as a system-wide EQ would be misleading.
 
-## Build
+Use Spotify's in-app Equalizer option when supported, or an actual phone manufacturer system-wide EQ feature if your model supplies one. Sound settings may not contain an equalizer at all.
 
-Open Actions > Build Android APK, select the latest successful run, download the `soundsweeper-debug-apk` artifact, extract it and install the APK on an Android device.
+The SoundSweeper firmware's proprietary EQ/ANC control commands have **not** been identified or verified. Bluetooth A2DP support alone does not establish their existence.
 
-This is a test/debug APK, not a Play Store production build.
+### Testing
+
+1. Install the latest debug APK from GitHub Actions.
+2. Connect headphones and verify the connection and battery fields.
+3. Open the three streaming services with their shortcuts.
+4. Tap 'Open phone sound settings' and check whether your phone exposes an equalizer.
+5. Tap 'Show media volume' to display Android's media volume panel.
+
+### Build
+
+See **Actions → Build Android APK** and download the `soundsweeper-debug-apk` artifact from the latest successful run. Extract the ZIP and install the APK. Debug builds are test packages, not signed production Play Store releases.
