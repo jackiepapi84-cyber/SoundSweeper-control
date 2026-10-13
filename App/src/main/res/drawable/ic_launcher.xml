@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Original SoundSweeper artwork: navy, ice blue and coral. -->
+    <path android:fillColor="#071C38"
+        android:pathData="M18,0 L90,0 Q108,0 108,18 L108,90 Q108,108 90,108 L18,108 Q0,108 0,90 L0,18 Q0,0 18,0 Z"/>
+    <path android:fillColor="@android:color/transparent"
+        android:strokeColor="#91E6FF" android:strokeWidth="8"
+        android:strokeLineCap="round"
+        android:pathData="M21,65 C17,40 31,20 54,20 C77,20 91,40 87,65"/>
+    <path android:fillColor="#22466B"
+        android:pathData="M20,54 C13,54 11,61 11,68 L11,81 C11,90 16,95 23,95 L29,95 C34,95 37,90 37,83 L37,65 C37,59 33,54 27,54 Z"/>
+    <path android:fillColor="#8FDDFF"
+        android:pathData="M19,59 C14,61 14,66 14,72 L14,81 C14,88 17,91 22,91 L28,91 C31,91 32,86 32,81 L32,66 C32,62 30,58 26,58 Z"/>
+    <path android:fillColor="#FF987F"
+        android:pathData="M33,61 L36,61 L36,87 L33,87 Z"/>
+    <path android:fillColor="#22466B"
+        android:pathData="M81,54 C88,54 97,61 97,68 L97,81 C97,90 92,95 85,95 L79,95 C74,95 71,90 71,83 L71,65 C71,59 75,54 81,54 Z"/>
+    <path android:fillColor="#8FDDFF"
+        android:pathData="M82,59 C89,58 94,64 94,72 L94,81 C94,88 91,91 86,91 L80,91 C77,91 76,86 76,81 L76,66 C76,62 78,59 82,59 Z"/>
+    <path android:fillColor="#FF987F"
+        android:pathData="M72,61 L75,61 L75,87 L72,87 Z"/>
+    <path android:fillColor="#57BDF1" android:pathData="M42,67 Q40,67 40,70 L40,78 Q40,81 42,81 Q44,81 44,78 L44,70 Q44,67 42,67 Z"/>
+    <path android:fillColor="#8FDDFF" android:pathData="M48,60 Q46,60 46,63 L46,84 Q46,87 48,87 Q50,87 50,84 L50,63 Q50,60 48,60 Z"/>
+    <path android:fillColor="#FF987F" android:pathData="M54,54 Q51,54 51,58 L51,88 Q51,92 54,92 Q57,92 57,88 L57,58 Q57,54 54,54 Z"/>
+    <path android:fillColor="#8FDDFF" android:pathData="M60,60 Q58,60 58,63 L58,84 Q58,87 60,87 Q62,87 62,84 L62,63 Q62,60 60,60 Z"/>
+    <path android:fillColor="#57BDF1" android:pathData="M66,67 Q64,67 64,70 L64,78 Q64,81 66,81 Q68,81 68,78 L68,70 Q68,67 66,67 Z"/>
+</vector>
