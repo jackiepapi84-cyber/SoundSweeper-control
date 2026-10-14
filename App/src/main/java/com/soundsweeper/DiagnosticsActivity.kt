@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothA2dp
+import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
@@ -443,7 +445,6 @@ class DiagnosticsActivity : Activity() {
                 KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> "Media Play/Pause"
                 KeyEvent.KEYCODE_MEDIA_NEXT -> "Next Track"
                 KeyEvent.KEYCODE_MEDIA_PREVIOUS -> "Previous Track"
-                KeyEvent.KEYCODE_HEADSETPHOOK -> "Headset Hook"
                 KeyEvent.KEYCODE_VOLUME_UP -> "Volume Up"
                 KeyEvent.KEYCODE_VOLUME_DOWN -> "Volume Down"
                 else -> null
