@@ -1,23 +1,32 @@
 # SoundSweeper Control
 
-An independent, experimental Android companion for Volkano SoundSweeper headphones. Not made by, endorsed by, or affiliated with Volkano or OPPO.
+Experimental, independent Android companion for Volkano SoundSweeper headphones. Not affiliated with Volkano or OPPO.
 
-## Version 1.4 — Companion redesign
+## Version 1.5 — Device diagnostics
 
-The interface takes **general design inspiration** from OPPO's HeyMelody layout: device-first overview, battery panel, concise settings rows, separate controls and ANC pages. All artwork and layout are original, with a navy/ice-blue/coral headphone logo. Not an OPPO interface clone.
+The interface keeps a device-first overview inspired by the organization of HeyMelody, but uses original artwork and styling.
 
-### Features
-- Connection status using Android Bluetooth audio profile access (A2DP / headset).
-- Best-effort headphone battery display from Bluetooth-stack battery broadcasts on compatible Android phones.
-- Quick-launch shortcuts for Spotify, Apple Music for Android, and YouTube.
-- A **Button preferences** page with factory-control reference and editable, locally saved draft mappings. Drafts are **NOT sent to the headphones**, DO NOT remap physical keys, and are not applied to streaming apps. This is a planning screen only until a verified proprietary control protocol is available.
-- **ANC guide** page with physical switch instructions. No working ANC on/off toggle or ANC state detector is claimed.
+### Working features
+- Bluetooth A2DP/headset connection status and best-effort headphone battery reporting.
+- Streaming shortcuts for Spotify, Apple Music and YouTube.
+- Factory button reference, plus **locally stored draft preferences** (these do **not** remap headset hardware).
+- ANC instructions for the physical switch. No app-controlled ANC toggle.
+- Hardware diagnostics:
+  - Detects connected SoundSweeper Bluetooth type (Classic, LE or dual-mode) and audio profiles.
+  - Displays **cached classic Bluetooth service UUIDs**. A user-initiated "Read supported services" button invokes Android's read-only Bluetooth SDP discovery using `fetchUuidsWithSdp()`.
+  - Optionally displays media/volume **key events delivered to this foreground Activity**. Android may route these to the OS or another app instead, so no event isn't proof of incompatibility.
+  - Copies a text report **only when requested**; excludes hardware/MAC addresses, and does not upload device data.
+- No EQ feature.
 
-### Factory button controls
-According to available SoundSweeper manuals for the VK-2027 series: power short press for Play/Pause or answer/end call; Volume + short press increases volume, long press next track; Volume − short press decreases volume, long press previous track; ANC uses a separate physical on/off switch. Verify these instructions against your particular device's manual.
+### Important limitations
+Bluetooth service UUIDs are not evidence of writable ANC controls or firmware button-remapping support. Some headphones have separate BLE control services that aren't discoverable with classic SDP. This app **does not scan BLE, open GATT connections, send proprietary commands or write to firmware**. Without a documented control API or verified real-device protocol, those controls cannot be offered honestly.
 
-### Limitations
-No EQ, since Android doesn't provide this app with universal streaming-audio EQ access. We have not confirmed an exposed Bluetooth service that accepts button-mapping or ANC controls. Adding such functionality requires documented or reverse-engineered commands verified against the actual device. No commands are sent to firmware.
+### Testing v1.5
+1. Connect SoundSweeper in Android Bluetooth settings.
+2. Open SoundSweeper Control → **Hardware diagnostics**.
+3. Tap **Read supported services**, wait for service discovery.
+4. Keep the diagnostic screen open and press a headset media button once. No event is a normal possible result.
+5. Tap **Copy diagnostic report**, then paste the report into the chat for interpretation. The report does not include your Bluetooth MAC address.
 
-### Build
-GitHub Actions → Build Android APK → latest successful run → download the `soundsweeper-debug-apk` artifact, extract the ZIP, and install the test APK on Android. This isn't a Play Store release.
+### Build and install
+In GitHub Actions, open the latest successful **Build Android APK** workflow run, download the `soundsweeper-debug-apk` artifact, extract its ZIP, and install the APK. Debug builds are not Play Store production builds.

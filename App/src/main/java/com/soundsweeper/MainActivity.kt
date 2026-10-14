@@ -314,6 +314,9 @@ class MainActivity : Activity() {
         }, gap(10))
         pageContent.addView(detailRow("Noise cancellation", "ANC is controlled by the physical switch", "›").apply {
             setOnClickListener { showPage(2) }
+        }, gap(10))
+        pageContent.addView(detailRow("Hardware diagnostics", "Inspect Bluetooth services and test button events", "›").apply {
+            setOnClickListener { openDiagnostics() }
         }, gap(23))
 
         pageContent.addView(line("Quick launch", 19f, navy, true), gap(12))
@@ -326,7 +329,7 @@ class MainActivity : Activity() {
         pageContent.addView(detailRow("YouTube", "Open YouTube", "↗").apply {
             setOnClickListener { launchApp("com.google.android.youtube") }
         }, gap(16))
-        pageContent.addView(line("Independent SoundSweeper prototype • v1.4", 12f, secondary).apply {
+        pageContent.addView(line("Independent SoundSweeper prototype • v1.5", 12f, secondary).apply {
             gravity = Gravity.CENTER
             setPadding(0, dp(12), 0, 0)
         })
@@ -375,7 +378,10 @@ class MainActivity : Activity() {
         pageContent.addView(line(
             "The power button's long-press on/off function remains a hardware action and is not offered for reassignment.",
             13f, secondary
-        ))
+        ), gap(15))
+        pageContent.addView(button("Test button events", blue, white).apply {
+            setOnClickListener { openDiagnostics() }
+        })
     }
 
     private fun chooseDraft(spec: ButtonSpec) {
@@ -411,7 +417,14 @@ class MainActivity : Activity() {
         pageContent.addView(line(
             "The documented SoundSweeper model has a physical ANC switch. No verified software command interface is available, so a digital toggle would be misleading.",
             14f, secondary
-        ))
+        ), gap(16))
+        pageContent.addView(button("Inspect Bluetooth capabilities", blue, white).apply {
+            setOnClickListener { openDiagnostics() }
+        })
+    }
+
+    private fun openDiagnostics() {
+        startActivity(Intent(this, DiagnosticsActivity::class.java))
     }
 
     private fun detailRow(title: String, subtitle: String, trailing: String): LinearLayout {
